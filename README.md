@@ -45,3 +45,16 @@ python setup.py develop
 
 ### Infer
 
+#### onnxruntime
+
+exam.
+
+```
+python .\user\onnxruntime\detect.py image --config .\config\nanodet_custom_xml_dataset.yml --model .\models\nanodet.onnx --path .\user\images\image1.jpg --save_result
+```
+
+while `--save_result` is optional.
+
+## Thanks
+
+- https://github.com/RangiLyu/nanodet.git

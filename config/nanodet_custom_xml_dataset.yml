@@ -1,5 +1,5 @@
 #Config File example
-save_dir: workspace/nanodet_m
+save_dir: save_results/nanodet_m
 model:
   weight_averager:
     name: ExpMovingAverager

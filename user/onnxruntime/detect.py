@@ -1,9 +1,9 @@
 import math
 import os
+import argparse
 import cv2
 import torch
 import time
-from nanodet.util import cfg, load_config
 from nanodet.data.collate import naive_collate
 from nanodet.data.transform import Pipeline
 import numpy as np
@@ -13,9 +13,14 @@ from nanodet.data.batch_process import stack_batch_img
 from nanodet.util import (
     distance2bbox,
     visualization,
+    cfg, load_config
 )
+from nanodet.util.path import mkdir
 from nanodet.model.module.nms import multiclass_nms
 from nanodet.data.transform.warp import warp_boxes
+
+
+image_ext = [".jpg", ".jpeg", ".webp", ".bmp", ".png"]
 
 
 class Predictor(object):
@@ -202,15 +207,64 @@ def get_img_meta(img, config):
     meta["img"] = stack_batch_img(meta["img"], divisible=32)
 
 
+def get_image_list(path):
+    image_names = []
+    for maindir, subdir, file_name_list in os.walk(path):
+        for filename in file_name_list:
+            apath = os.path.join(maindir, filename)
+            ext = os.path.splitext(apath)[1]
+            if ext in image_ext:
+                image_names.append(apath)
+    return image_names
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "type", default="image", help="demo type, eg. image, video and webcam"
+    )
+    parser.add_argument("--config", help="model config file path")
+    parser.add_argument("--model", help="onnx model file path")
+    parser.add_argument("--path", default="./user/images", help="path to images or video")
+    parser.add_argument(
+        "--save_result",
+        action="store_true",
+        help="whether to save the inference result of image/video",
+    )
+    args = parser.parse_args()
+    return args
+
+
+def main(args):
+    local_rank = 0
+    torch.backends.cudnn.enabled = True
+    torch.backends.cudnn.benchmark = True
+    load_config(cfg, args.config)
+    predictor = Predictor(cfg, args.model, device="cuda:0")
+    current_time = time.localtime()
+    if args.type == "image":
+        if os.path.isdir(args.path):
+            files = get_image_list(args.path)
+        else:
+            files = [args.path]
+        files.sort()
+        for image_name in files:
+            meta, res = predictor.inference(image_name)
+            result_image = predictor.visualize(res[0], meta, cfg.class_names, 0.60)
+            if args.save_result:
+                save_folder = os.path.join(
+                    cfg.save_dir, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)  # print time
+                )
+                mkdir(local_rank, save_folder)
+                save_file_name = os.path.join(save_folder, os.path.basename(image_name))
+                cv2.imwrite(save_file_name, result_image)
+            ch = cv2.waitKey(0)
+            if ch == 27 or ch == ord("q") or ch == ord("Q"):
+                break
+
+
 if __name__ == '__main__':
-    # 导入模型
-    image_path = './images/image1.jpg'
-    config_path = '../config/nanodet_custom_xml_dataset.yml'
-    onnx_path = '../models/nanodet.onnx'
-    load_config(cfg, config_path)
-    predictor = Predictor(cfg, onnx_path, device="cuda:0")
-    meta, res = predictor.inference(image_path)
-    result_image = predictor.visualize(res[0], meta, cfg.class_names, 0.60)
-    cv2.waitKey(0)
+    args = parse_args()
+    main(args)
     # debug
     print('END')
