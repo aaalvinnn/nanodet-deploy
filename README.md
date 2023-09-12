@@ -5,9 +5,10 @@ This project is for deployment of nanodet-m onnx model, including onnxruntime, n
 
 ### Requirements
 
-- CUDA = 11.7
+- CUDA = 11.3
 - Python = 3.8
-- Pytorch = 1.13.1
+- Pytorch = 1.10.1
+- torchvision==0.11.2
 
 ### Env
 
@@ -21,7 +22,7 @@ This project is for deployment of nanodet-m onnx model, including onnxruntime, n
 2. Install pytorch
 
 ```
-conda install pytorch torchvision cudatoolkit=11.1 -c pytorch -c conda-forge
+conda install pytorch==1.10.1 torchvision==0.11.2 cudatoolkit=11.3 -c pytorch -y
 ```
 
 3. Clone this repository
