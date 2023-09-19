@@ -1,4 +1,6 @@
 #Config File example
+model_dir: models/nanodet.onnx
+image_dir: user/images/image1.jpg
 save_dir: save_results/nanodet_m
 
 

@@ -48,13 +48,25 @@ python setup.py develop
 
 #### onnxruntime
 
+It is provided with 2 versions of inferring:
+
 exam.
 
+1. `infer.py`
+
 ```
-python .\user\onnxruntime\detect.py image --config .\config\nanodet_custom_xml_dataset.yml --model .\models\nanodet.onnx --path .\user\images\image1.jpg --save_result
+python .\user\onnxruntime\infer.py image --config .\config\nanodet_custom_xml_dataset.yml --model .\models\nanodet.onnx --path .\user\images\image1.jpg --save_result
 ```
 
 while `--save_result` is optional.
+
+2. `infer_yaml.py`
+
+   1. change config `nanodet_custom_xml_dataset.yml`;
+
+   2. ```
+      python .\user\onnxruntime\infer_yaml.py --config .\config\nanodet_custom_xml_dataset.yml
+      ```
 
 ## Thanks
 
