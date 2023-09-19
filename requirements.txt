@@ -3,6 +3,7 @@ matplotlib
 numpy
 omegaconf>=2.0.1
 onnx
+onnxruntime
 onnx-simplifier
 opencv-python
 pyaml

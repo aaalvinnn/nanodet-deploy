@@ -167,7 +167,7 @@ class Predictor(object):
         img_info["height"] = height
         img_info["width"] = width
         meta = dict(img_info=img_info, raw_img=img, img=img)
-        meta = self.pipeline(meta, self.config.data.val.input_size)
+        meta = self.pipeline(meta=meta, dst_shape=self.config.data.val.input_size)
         meta["img"] = torch.from_numpy(meta["img"].transpose(2, 0, 1)).to(self.device)
         meta = naive_collate([meta])
         meta["img"] = stack_batch_img(meta["img"], divisible=32)
@@ -227,27 +227,53 @@ def parse_args():
     return args
 
 
+def get_dir_name(cfg):
+    # 不同系统路径分隔符不同，以示区分
+    system = platform.system()
+    if system == 'Windows':
+        model_dir = cfg.model_dir
+        image_dir = cfg.image_dir
+        save_dir = cfg.save_dir
+    elif system == 'Linux':
+        model_dir = cfg.model_dir
+        image_dir = cfg.image_dir
+        save_dir = cfg.save_dir
+    return model_dir, image_dir, save_dir
+
+
+
 def main(args):
+    # 初始化
     local_rank = 0
     torch.backends.cudnn.enabled = True
     torch.backends.cudnn.benchmark = True
+
+    # 加载配置文件
     load_config(cfg, args.config)
-    predictor = Predictor(cfg, cfg.model_dir, device="cuda:0")
+    model_dir, image_dir, save_dir = get_dir_name(cfg)
+
+    # 实例化推理类
+    predictor = Predictor(cfg, model_dir, device="cuda:0")
+
+    # 可视化推理信息
     current_time = time.localtime()
-    if os.path.isdir(cfg.image_dir):
-        files = get_image_list(cfg.image_dir)
+
+    # 开始推理
+    if os.path.isdir(image_dir):
+        files = get_image_list(image_dir)
     else:
-        files = [cfg.image_dir]
+        files = [image_dir]
     files.sort()
     for image_name in files:
         meta, res = predictor.inference(image_name)
         result_image = predictor.visualize(res[0], meta, cfg.class_names, 0.60)
         save_folder = os.path.join(
-            cfg.save_dir, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)  # print time
+            save_dir, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)  # print time
         )
         mkdir(local_rank, save_folder)
         save_file_name = os.path.join(save_folder, os.path.basename(image_name))
         cv2.imwrite(save_file_name, result_image)
+        print(f"results save in {save_dir}/{save_file_name}")
         ch = cv2.waitKey(0)
         if ch == 27 or ch == ord("q") or ch == ord("Q"):
             break

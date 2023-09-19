@@ -4,6 +4,7 @@ import argparse
 import cv2
 import torch
 import time
+import platform
 from nanodet.data.collate import naive_collate
 from nanodet.data.transform import Pipeline
 import numpy as np
@@ -184,7 +185,8 @@ class Predictor(object):
     def visualize(self, dets, meta, class_names, score_thres, wait=0):
         time1 = time.time()
         result_img = visualization.overlay_bbox_cv(meta["raw_img"][0], dets, self.config.class_names, score_thres)
-        cv2.imshow("det", result_img)
+        if platform.system() == 'Windows':
+            cv2.imshow("det", result_img)
         print("viz time: {:.3f}s".format(time.time() - time1))
         return result_img
 
@@ -258,6 +260,7 @@ def main(args):
                 mkdir(local_rank, save_folder)
                 save_file_name = os.path.join(save_folder, os.path.basename(image_name))
                 cv2.imwrite(save_file_name, result_image)
+                print(f"results save in {save_dir}/{save_file_name}")
             ch = cv2.waitKey(0)
             if ch == 27 or ch == ord("q") or ch == ord("Q"):
                 break
