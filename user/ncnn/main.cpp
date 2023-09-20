@@ -161,7 +161,7 @@ const int color_list[80][3] =
     {127 ,127 ,  0},
 };
 
-void draw_bboxes(const cv::Mat& bgr, const std::vector<BoxInfo>& bboxes, object_rect effect_roi)
+void draw_bboxes(const cv::Mat& bgr, const std::vector<BoxInfo>& bboxes, object_rect effect_roi, cv::String img_name="camero")
 {
     static const char* class_names[] = { "person", "bicycle", "car", "motorcycle", "airplane", "bus",
                                         "train", "truck", "boat", "traffic light", "fire hydrant",
@@ -219,6 +219,9 @@ void draw_bboxes(const cv::Mat& bgr, const std::vector<BoxInfo>& bboxes, object_
     }
 
     cv::imshow("image", image);
+    // save image
+    if (img_name != "camero")
+        bool result = cv::imwrite(img_name, image);
 }
 
 
@@ -243,9 +246,8 @@ int image_demo(NanoDet &detector, const char* imagepath)
         cv::Mat resized_img;
         resize_uniform(image, resized_img, cv::Size(width, height), effect_roi);
         auto results = detector.detect(resized_img, 0.4, 0.5);
-        draw_bboxes(image, results, effect_roi);
+        draw_bboxes(image, results, effect_roi, img_name);
         cv::waitKey(0);
-
     }
     return 0;
 }
