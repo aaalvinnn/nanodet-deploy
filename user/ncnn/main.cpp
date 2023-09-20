@@ -218,10 +218,11 @@ void draw_bboxes(const cv::Mat& bgr, const std::vector<BoxInfo>& bboxes, object_
             cv::FONT_HERSHEY_SIMPLEX, 0.4, cv::Scalar(255, 255, 255));
     }
 
-    cv::imshow("image", image);
+    // cv::imshow("image", image);          // linux 服务器上没有图形化页面
     // save image
     if (img_name != "camero")
-        bool result = cv::imwrite(img_name, image);
+        bool result = cv::imwrite("result.jpg", image);
+        std::printf("result dir: ./save_results/ncnn/result.jpg");
 }
 
 
