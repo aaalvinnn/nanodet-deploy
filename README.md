@@ -68,6 +68,12 @@ while `--save_result` is optional.
       python .\user\onnxruntime\infer_yaml.py --config .\config\nanodet_custom_xml_dataset.yml
       ```
 
+#### ncnn
+
+
+
+
+
 ## Thanks
 
 - https://github.com/RangiLyu/nanodet.git
