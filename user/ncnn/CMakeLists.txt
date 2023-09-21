@@ -26,11 +26,10 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-
-add_executable(nanodet_demo main.cpp nanodet.cpp)
+add_executable(nanodet main.cpp nanodet.cpp)
 
 target_link_libraries(
-    nanodet_demo
+    nanodet
     ncnn
     ${OpenCV_LIBS}
 )
