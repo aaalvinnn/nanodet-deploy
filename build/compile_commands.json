@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/zsw/Projects/nanodet-deploy/build",
+  "command": "/usr/bin/c++ -I/home/zsw/Projects/nanodet-deploy/user/ncnn -I/home/zsw/Projects/nanodet-deploy/build -isystem /usr/include/opencv -isystem /home/zsw/Packages/ncnn/build/install/include/ncnn  -fopenmp -g -std=gnu++17 -fPIE -fopenmp -o CMakeFiles/nanodet.dir/main.cpp.o -c /home/zsw/Projects/nanodet-deploy/user/ncnn/main.cpp",
+  "file": "/home/zsw/Projects/nanodet-deploy/user/ncnn/main.cpp",
+  "output": "CMakeFiles/nanodet.dir/main.cpp.o"
+},
+{
+  "directory": "/home/zsw/Projects/nanodet-deploy/build",
+  "command": "/usr/bin/c++ -I/home/zsw/Projects/nanodet-deploy/user/ncnn -I/home/zsw/Projects/nanodet-deploy/build -isystem /usr/include/opencv -isystem /home/zsw/Packages/ncnn/build/install/include/ncnn  -fopenmp -g -std=gnu++17 -fPIE -fopenmp -o CMakeFiles/nanodet.dir/nanodet.cpp.o -c /home/zsw/Projects/nanodet-deploy/user/ncnn/nanodet.cpp",
+  "file": "/home/zsw/Projects/nanodet-deploy/user/ncnn/nanodet.cpp",
+  "output": "CMakeFiles/nanodet.dir/nanodet.cpp.o"
+}
+]

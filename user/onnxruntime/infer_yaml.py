@@ -273,7 +273,7 @@ def main(args):
         mkdir(local_rank, save_folder)
         save_file_name = os.path.join(save_folder, os.path.basename(image_name))
         cv2.imwrite(save_file_name, result_image)
-        print(f"results save in {save_dir}/{save_file_name}")
+        print(f"results save in {save_file_name}")
         ch = cv2.waitKey(0)
         if ch == 27 or ch == ord("q") or ch == ord("Q"):
             break
@@ -281,6 +281,5 @@ def main(args):
 
 if __name__ == '__main__':
     args = parse_args()
+    print(args)
     main(args)
-    # debug
-    print('END')

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_CXX_STANDARD 17)
 
-project(nanodet_demo)
+project(nanodet_ncnn)
 
 find_package(OpenMP REQUIRED)
 if(OPENMP_FOUND)

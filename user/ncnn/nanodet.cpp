@@ -4,8 +4,18 @@
 //
 
 #include "nanodet.h"
+#include <unistd.h>
+#include <iostream>
 #include <benchmark.h>
 // #include <iostream>
+
+void print_current_work_dir(void)
+{
+    const int size = 255;
+	char buf[size];
+	getcwd(buf,size);
+	std::cout<<"Working path is: "<<buf<<std::endl;
+}
 
 inline float fast_exp(float x)
 {
@@ -62,11 +72,11 @@ static void generate_grid_center_priors(const int input_height, const int input_
     }
 }
 
-
+//类的静态成员变量需要在类外分配内存空间
 bool NanoDet::hasGPU = false;
 NanoDet* NanoDet::detector = nullptr;
 
-NanoDet::NanoDet(const char* param, const char* bin, bool useGPU)
+    NanoDet::NanoDet(const char* param, const char* bin, bool useGPU)
 {
     this->Net = new ncnn::Net();
     // opt

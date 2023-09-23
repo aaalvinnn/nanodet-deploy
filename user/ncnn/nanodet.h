@@ -68,5 +68,6 @@ private:
 
 };
 
+void print_current_work_dir(void);
 
 #endif //NANODET_H

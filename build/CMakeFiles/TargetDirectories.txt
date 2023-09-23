@@ -1,0 +1,3 @@
+/home/zsw/Projects/nanodet-deploy/build/CMakeFiles/nanodet.dir
+/home/zsw/Projects/nanodet-deploy/build/CMakeFiles/edit_cache.dir
+/home/zsw/Projects/nanodet-deploy/build/CMakeFiles/rebuild_cache.dir

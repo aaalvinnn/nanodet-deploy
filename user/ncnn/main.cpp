@@ -288,6 +288,7 @@ int main(int argc, char** argv)
         fprintf(stderr, "usage: %s [path]. \n", argv[0]);
         return -1;
     }
+    std::cout<< "argv:" << argv[1] << std::endl;
     NanoDet detector = NanoDet("./nanodet.param", "./nanodet.bin", true);
     const char* images = argv[1];
     image_demo(detector, images);

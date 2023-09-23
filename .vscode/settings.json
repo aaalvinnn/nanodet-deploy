@@ -1,0 +1,6 @@
+{
+    "cmake.sourceDirectory": "/home/zsw/Projects/nanodet-deploy/user/ncnn",
+    "cmake.debugConfig": {
+        "args": ["user/images"]
+    }
+}
